@@ -1,9 +1,10 @@
 # README
-### Tasks
-- [ ] lazy
-- [ ] config -> keymaps  
 
+## Cau hinh neovim khong su dung plugins -> su dung cho viec remote ssh 
 
-![hinh que huong](https://www.baocalitoday.com/wp-content/uploads/2018/01/nhung-hinh-anh-dep-thien-nhien-cua-que-huong-viet-nam-1.jpg)
+## co the clone git sau de co the su dung ngay:
 
-
+```shell
+git clone -b no_plugins https://github.com/trongnghiango/neovim-scratch.git
+~/.config/nvim
+```

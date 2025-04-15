@@ -38,7 +38,7 @@ vim.opt.splitright = true				-- vertical split to the right
 vim.opt.termguicolors = true			-- terminal gui colors
 vim.cmd [[
 	set path+=**
-	colorscheme gruvbox
+	colorscheme palenight 
 	highlight Normal ctermbg=NONE guibg=NONE
 	filetype plugin on
 	set wildmenu
@@ -129,7 +129,37 @@ map("n", "<C-Left>", ":vertical resize +3<CR>")		-- Control+Left resizes vertica
 map("n", "<C-Right>", ":vertical resize -3<CR>")	-- Control+Right resizes vertical split -
 
 -- Open netrw in 25% split in tree view
-map("n", "<leader>e", ":25Lex<CR>")			-- space+e toggles netrw tree view 
+--map("n", "<leader>e", ":25Lex<CR>")			-- space+e toggles netrw tree view 
+local function toggle_netrw()
+    local netrw_win = nil
+    
+    -- Tìm tất cả cửa sổ netrw trong tab hiện tại
+    for _, win in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
+        local buf = vim.api.nvim_win_get_buf(win)
+        if vim.bo[buf].filetype == "netrw" then
+            netrw_win = win
+            break
+        end
+    end
+
+    if netrw_win then
+        local current_win = vim.api.nvim_get_current_win()
+        local current_buf = vim.api.nvim_win_get_buf(current_win)
+        
+        -- Nếu đang focus netrw thì đóng
+        if vim.bo[current_buf].filetype == "netrw" then
+            vim.api.nvim_win_close(netrw_win, true)
+        -- Nếu đang focus editor thì chuyển sang netrw
+        else
+            vim.api.nvim_set_current_win(netrw_win)
+        end
+    else
+        -- Mở netrw mới nếu chưa tồn tại
+        vim.cmd("25Lex")
+    end
+end
+-- Mapping
+vim.keymap.set('n', '<leader>e', toggle_netrw, { desc = "Toggle netrw explorer" })
 
 -- Easy way to get back to normal mode from home row
 map("i", "kj", "<Esc>")					-- kj simulates ESC
